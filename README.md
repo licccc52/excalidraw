@@ -1,15 +1,23 @@
 # win local环境搭建
 安装nvm (node版本管理工具)
 nvm --version
+
 nvm install 20
+
 nvm use 20
+
 node -v
+
 npm install --global yarn
+
 powershell 可运行 yarn
+
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 yarn
+
 修改服务启动端口为3001(如果端口冲突了) 修改 env.development 中 第 30 行的VITE_APP_PORT=3001
+
 yarn start
 
 ---
