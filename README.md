@@ -128,3 +128,21 @@ If you like the project, you can become a sponsor at [Open Collective](https://o
 Last but not least, we're thankful to these companies for offering their services for free:
 
 [![Vercel](./.github/assets/vercel.svg)](https://vercel.com) [![Sentry](./.github/assets/sentry.svg)](https://sentry.io) [![Crowdin](./.github/assets/crowdin.svg)](https://crowdin.com)
+
+
+
+## 环境搭建
+安装nvm
+nvm --version
+nvm install 20
+nvm use 20
+node -v
+npm install --global yarn
+# powershell 可运行 yarn
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+yarn
+
+修改服务启动端口为3001(如果端口冲突了) 修改 env.development 中 第 30 行的VITE_APP_PORT=3001
+
+yarn start
