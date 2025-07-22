@@ -10,7 +10,8 @@ node -v
 
 npm install --global yarn
 
-powershell 可运行 yarn
+
+! 为了使 powershell 可运行 yarn,执行下面的命令 (我用vscode 的终端 不能运行yarn)
 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
