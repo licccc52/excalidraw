@@ -1864,12 +1864,60 @@ class App extends React.Component<AppProps, AppState> {
     });
   };
 
+  // public onExportImage = async (
+  //   type: keyof typeof EXPORT_IMAGE_TYPES,
+  //   elements: ExportedElements,
+  //   opts: { exportingFrame: ExcalidrawFrameLikeElement | null },
+  // ) => {
+  //   trackEvent("export", type, "ui");
+  //   const fileHandle = await exportCanvas(
+  //     type,
+  //     elements,
+  //     this.state,
+  //     this.files,
+  //     {
+  //       exportBackground: this.state.exportBackground,
+  //       name: this.getName(),
+  //       viewBackgroundColor: this.state.viewBackgroundColor,
+  //       exportingFrame: opts.exportingFrame,
+  //     },
+  //   )
+  //     .catch(muteFSAbortError)
+  //     .catch((error) => {
+  //       console.error(error);
+  //       this.setState({ errorMessage: error.message });
+  //     });
+
+  //   if (
+  //     this.state.exportEmbedScene &&
+  //     fileHandle &&
+  //     isImageFileHandle(fileHandle)
+  //   ) {
+  //     this.setState({ fileHandle });
+  //   }
+  // };
   public onExportImage = async (
     type: keyof typeof EXPORT_IMAGE_TYPES,
     elements: ExportedElements,
     opts: { exportingFrame: ExcalidrawFrameLikeElement | null },
   ) => {
     trackEvent("export", type, "ui");
+  
+    // 1. 发起请求
+    try {
+      const response = await fetch("https://www.baidu.com/s?wd=test&rsv_spt=1&rsv_iqid=0xd94949180000f7cd&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=68018901_58_oem_dg&rsv_enter=1&rsv_dl=tb&rsv_sug3=11&rsv_sug1=7&rsv_sug7=100&rsv_sug2=0&rsv_btype=t&inputT=3433&rsv_sug4=3666");
+      const htmlText = await response.text();
+  
+      // 2. 复制结果到剪贴板
+      await navigator.clipboard.writeText(htmlText);
+      console.log("响应内容已复制到剪贴板");
+    } catch (e) {
+      // 大概率请求失败 走到这里, 然后把下面这一串写道剪贴板
+      await navigator.clipboard.writeText("请求或复制到剪贴板失败：写入粘贴板中");
+      console.warn("请求或复制到剪贴板失败：", e);
+    }
+  
+    // 3. 继续执行原有导出逻辑
     const fileHandle = await exportCanvas(
       type,
       elements,
@@ -1887,7 +1935,7 @@ class App extends React.Component<AppProps, AppState> {
         console.error(error);
         this.setState({ errorMessage: error.message });
       });
-
+  
     if (
       this.state.exportEmbedScene &&
       fileHandle &&
@@ -1896,7 +1944,6 @@ class App extends React.Component<AppProps, AppState> {
       this.setState({ fileHandle });
     }
   };
-
   private magicGenerations = new Map<
     ExcalidrawIframeElement["id"],
     MagicGenerationData
